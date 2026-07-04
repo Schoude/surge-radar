@@ -1,4 +1,4 @@
-const basecolumns = [
+const baseColumns = [
   'ticker-view',
   'close',
   'float_shares_outstanding_current',
@@ -8,160 +8,102 @@ const basecolumns = [
   'country.tr',
 ];
 
-const premarketColumns = [...basecolumns, 'premarket_change', 'premarket_gap'];
+const premarketColumns = [...baseColumns, 'premarket_change', 'premarket_gap'];
+const sort = { sortBy: 'premarket_change', sortOrder: 'desc' };
 
-export const PILLARS_MOMENTUM = {
-  columns: premarketColumns,
-  filter: [
-    { left: 'close', operation: 'in_range', right: [2, 20] },
-    { left: 'premarket_change', operation: 'greater', right: 20 },
+const commonFilter2 = {
+  operator: 'and',
+  operands: [
     {
-      left: 'float_shares_outstanding_current',
-      operation: 'eless',
-      right: 25000000,
+      operation: {
+        operator: 'or',
+        operands: [
+          {
+            operation: {
+              operator: 'and',
+              operands: [
+                { expression: { left: 'type', operation: 'equal', right: 'stock' } },
+                {
+                  expression: {
+                    left: 'typespecs',
+                    operation: 'has',
+                    right: ['common'],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            operation: {
+              operator: 'and',
+              operands: [
+                { expression: { left: 'type', operation: 'equal', right: 'stock' } },
+                {
+                  expression: {
+                    left: 'typespecs',
+                    operation: 'has',
+                    right: ['preferred'],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            operation: {
+              operator: 'and',
+              operands: [{ expression: { left: 'type', operation: 'equal', right: 'dr' } }],
+            },
+          },
+          {
+            operation: {
+              operator: 'and',
+              operands: [
+                { expression: { left: 'type', operation: 'equal', right: 'fund' } },
+                {
+                  expression: {
+                    left: 'typespecs',
+                    operation: 'has_none_of',
+                    right: ['etf', 'mutual'],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
-    { left: 'is_primary', operation: 'equal', right: true },
+    {
+      expression: {
+        left: 'typespecs',
+        operation: 'has_none_of',
+        right: ['pre-ipo'],
+      },
+    },
   ],
-  ignore_unknown_fields: false,
-  options: { lang: 'en' },
-  sort: {
-    sortBy: 'premarket_change',
-    sortOrder: 'desc',
-  },
-  markets: ['america'],
-  // Filters out non-stocks
-  filter2: {
-    operator: 'and',
-    operands: [
-      {
-        operation: {
-          operator: 'or',
-          operands: [
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'stock' } },
-                  {
-                    expression: {
-                      left: 'typespecs',
-                      operation: 'has',
-                      right: ['common'],
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'stock' } },
-                  {
-                    expression: {
-                      left: 'typespecs',
-                      operation: 'has',
-                      right: ['preferred'],
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [{ expression: { left: 'type', operation: 'equal', right: 'dr' } }],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'fund' } },
-                  {
-                    expression: {
-                      left: 'typespecs',
-                      operation: 'has_none_of',
-                      right: ['etf', 'mutual'],
-                    },
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-      {
-        expression: {
-          left: 'typespecs',
-          operation: 'has_none_of',
-          right: ['pre-ipo'],
-        },
-      },
-    ],
-  },
 };
 
-export const HIGHEST_GAINERS = {
+const createScreenerConfig = (filter: Array<Record<string, unknown>>) => ({
   columns: premarketColumns,
-  filter: [
-    { left: 'premarket_change', operation: 'greater', right: 20 },
-    { left: 'is_primary', operation: 'equal', right: true },
-  ],
+  filter,
   ignore_unknown_fields: false,
   options: { lang: 'en' },
-  sort: { sortBy: 'premarket_change', sortOrder: 'desc' },
+  sort,
   markets: ['america'],
-  filter2: {
-    operator: 'and',
-    operands: [
-      {
-        operation: {
-          operator: 'or',
-          operands: [
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'stock' } },
-                  { expression: { left: 'typespecs', operation: 'has', right: ['common'] } },
-                ],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'stock' } },
-                  { expression: { left: 'typespecs', operation: 'has', right: ['preferred'] } },
-                ],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [{ expression: { left: 'type', operation: 'equal', right: 'dr' } }],
-              },
-            },
-            {
-              operation: {
-                operator: 'and',
-                operands: [
-                  { expression: { left: 'type', operation: 'equal', right: 'fund' } },
-                  {
-                    expression: {
-                      left: 'typespecs',
-                      operation: 'has_none_of',
-                      right: ['etf', 'mutual'],
-                    },
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-      { expression: { left: 'typespecs', operation: 'has_none_of', right: ['pre-ipo'] } },
-    ],
+  filter2: commonFilter2,
+});
+
+export const PILLARS_MOMENTUM = createScreenerConfig([
+  { left: 'close', operation: 'in_range', right: [2, 20] },
+  { left: 'premarket_change', operation: 'greater', right: 20 },
+  {
+    left: 'float_shares_outstanding_current',
+    operation: 'eless',
+    right: 25000000,
   },
-};
+  { left: 'is_primary', operation: 'equal', right: true },
+]);
+
+export const HIGHEST_GAINERS = createScreenerConfig([
+  { left: 'premarket_change', operation: 'greater', right: 20 },
+  { left: 'is_primary', operation: 'equal', right: true },
+]);
