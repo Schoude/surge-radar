@@ -1,4 +1,5 @@
 import { defineQuery } from '@pinia/colada';
+import type { ScreenerRow } from '../../../api/main';
 
 const QUERY_KEY_SCREENER = {
   root: ['screener'] as const,
@@ -11,7 +12,7 @@ export const fivePillarsQuery = defineQuery({
   query: async () => {
     const res = await fetch('http://localhost:8000/screener/pillars-momentum');
 
-    return res.json();
+    return res.json() as unknown as ScreenerRow[];
   },
 });
 
@@ -20,6 +21,6 @@ export const highestGainersQuery = defineQuery({
   query: async () => {
     const res = await fetch('http://localhost:8000/screener/highest-gainers');
 
-    return res.json();
+    return res.json() as unknown as ScreenerRow[];
   },
 });

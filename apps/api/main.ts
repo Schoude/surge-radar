@@ -25,7 +25,7 @@ interface TVResponse {
   data: TVScreenerColumn[];
 }
 
-interface ScreenerColumn {
+export interface ScreenerRow {
   ticker: string;
   exchange: string;
   name: string;
@@ -40,7 +40,7 @@ interface ScreenerColumn {
   flagUrl: string;
 }
 
-function toScreenerColumns(data: TVResponse): ScreenerColumn[] {
+function toScreenerRow(data: TVResponse): ScreenerRow[] {
   return data.data.map((item) => {
     const [
       meta,
@@ -102,7 +102,7 @@ app.get('/screener/pillars-momentum', async (c) => {
 
   const data = (await res.json()) as TVResponse;
 
-  return c.json(toScreenerColumns(data));
+  return c.json(toScreenerRow(data));
 });
 
 app.get('/screener/highest-gainers', async (c) => {
@@ -122,7 +122,7 @@ app.get('/screener/highest-gainers', async (c) => {
 
   const data = (await res.json()) as TVResponse;
 
-  return c.json(toScreenerColumns(data));
+  return c.json(toScreenerRow(data));
 });
 
 app.get('/news/:exchange_ticker', async (c) => {
