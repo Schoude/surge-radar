@@ -1,6 +1,85 @@
 import { Hono } from 'hono';
 import { HIGHEST_GAINERS, PILLARS_MOMENTUM } from './configs/screener.ts';
 
+interface TVScreenerMeta {
+  description: string;
+  exchange: string;
+  kind: string;
+  'kind-delay': number;
+  logo: { logoid: string; style: string } | null;
+  logoid: string;
+  name: string;
+  type: string;
+  typespecs: string[];
+}
+
+interface TVScreenerColumn {
+  s: string;
+  d: [TVScreenerMeta, number, number, number, number, string, string, string, number, number];
+}
+
+interface TVResponse {
+  totalCount: number;
+  data: TVScreenerColumn[];
+}
+
+interface ScreenerColumn {
+  ticker: string;
+  exchange: string;
+  name: string;
+  close: number;
+  premarketChange: number;
+  premarketVolume: number;
+  float: number;
+  relativeVolume10d: number;
+  sector: string;
+  country: string;
+  logoUrl: string;
+  flagUrl: string;
+}
+
+function toScreenerColumns(data: TVResponse): ScreenerColumn[] {
+  return data.data.map((item) => {
+    const [
+      meta,
+      close,
+      float,
+      relativeVolume10d,
+      premarketVolume,
+      sector,
+      country,
+      countryCode,
+      premarketChange,
+    ] = item.d;
+
+    let logoUrl = '';
+    let flagUrl = '';
+
+    if (meta.logoid !== '') {
+      logoUrl = `https://s3-symbol-logo.tradingview.com/${meta.logoid}.svg`;
+    }
+
+    if (countryCode !== '') {
+      flagUrl = `https://s3-symbol-logo.tradingview.com/country/${countryCode}.svg`;
+    }
+
+    return {
+      ticker: meta.name,
+      name: meta.description,
+      exchange: meta.exchange,
+      close,
+      premarketChange,
+      premarketVolume,
+      float,
+      relativeVolume10d,
+      sector,
+      country,
+      logoUrl,
+      flagUrl,
+    };
+  });
+}
+
 const app = new Hono();
 
 app.get('/screener/pillars-momentum', async (c) => {
@@ -18,9 +97,9 @@ app.get('/screener/pillars-momentum', async (c) => {
     },
   );
 
-  const data = await res.json();
+  const data = (await res.json()) as TVResponse;
 
-  return c.json(data);
+  return c.json(toScreenerColumns(data));
 });
 
 app.get('/screener/highest-gainers', async (c) => {
@@ -38,9 +117,9 @@ app.get('/screener/highest-gainers', async (c) => {
     },
   );
 
-  const data = await res.json();
+  const data = (await res.json()) as TVResponse;
 
-  return c.json(data);
+  return c.json(toScreenerColumns(data));
 });
 
 app.get('/news/:exchange_ticker', async (c) => {
