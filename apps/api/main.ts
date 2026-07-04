@@ -1,4 +1,6 @@
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+
 import { HIGHEST_GAINERS, PILLARS_MOMENTUM } from './configs/screener.ts';
 
 interface TVScreenerMeta {
@@ -81,6 +83,7 @@ function toScreenerColumns(data: TVResponse): ScreenerColumn[] {
 }
 
 const app = new Hono();
+app.use('*', cors());
 
 app.get('/screener/pillars-momentum', async (c) => {
   const body = PILLARS_MOMENTUM;

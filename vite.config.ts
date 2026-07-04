@@ -8,12 +8,19 @@ export default defineConfig({
     singleQuote: true,
     semi: true,
     trailingComma: 'all',
+    sortTailwindcss: {
+      stylesheet: './apps/website/src/style.css',
+      functions: ['cn', 'clsx', 'cva', 'computed'],
+    },
   },
   lint: {
     ignorePatterns: ['*/api/*'],
     jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
     rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
-    options: { typeAware: true, typeCheck: true },
+    options: {
+      typeAware: true,
+      typeCheck: true,
+    },
     plugins: ['eslint', 'typescript', 'unicorn', 'oxc', 'vue', 'vitest'],
     categories: {
       correctness: 'error',
