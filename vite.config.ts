@@ -8,7 +8,6 @@ export default defineConfig({
     singleQuote: true,
     semi: true,
     trailingComma: 'all',
-    ignorePatterns: ['*/api/*'],
   },
   lint: {
     ignorePatterns: ['*/api/*'],
