@@ -14,6 +14,7 @@ export const fivePillarsQuery = defineQuery({
 
     return res.json() as unknown as ScreenerRow[];
   },
+  placeholderData: [],
 });
 
 export const highestGainersQuery = defineQuery({
@@ -23,4 +24,5 @@ export const highestGainersQuery = defineQuery({
 
     return res.json() as unknown as ScreenerRow[];
   },
+  placeholderData: [],
 });
