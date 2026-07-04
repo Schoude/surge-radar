@@ -6,6 +6,7 @@ const baseColumns = [
   'premarket_volume',
   'sector.tr',
   'country.tr',
+  'country_code_fund',
 ];
 
 const premarketColumns = [...baseColumns, 'premarket_change', 'premarket_gap'];
