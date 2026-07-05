@@ -1,9 +1,10 @@
 [build]
-# You are already at the root directory, just target the workspace app directly
-command = "cd apps/website && ./node_modules/.bin/vue-tsc --build && ../../node_modules/.bin/vite build"
+# The clean, standard workspace command
+command = "pnpm --filter website build"
 
-# Point to the exact build folder from the root repository
+# The correct path to your compiled distribution folder
 publish = "apps/website/dist"
 
 [build.environment]
-PNPM_FLAGS = "--recursive"
+# Forces pnpm to install your devDependencies (Vite, vue-tsc, etc.)
+NODE_ENV = "development"
