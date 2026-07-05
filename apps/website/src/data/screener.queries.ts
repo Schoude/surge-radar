@@ -2,7 +2,7 @@ import { defineQuery, useQuery } from '@pinia/colada';
 import type { ScreenerRow } from '../../../api/main';
 import { ref } from 'vue';
 
-const QUERY_KEY_SCREENER = {
+export const QUERY_KEY_SCREENER = {
   root: ['screener'] as const,
   fivePillars: () => [...QUERY_KEY_SCREENER.root, 'five-pillars'] as const,
   highestGainers: () => [...QUERY_KEY_SCREENER.root, 'highest-gainers'] as const,
