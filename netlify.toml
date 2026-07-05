@@ -1,9 +1,9 @@
 [build]
-# Navigate two levels up to the root workspace directory to run pnpm filtered to your app
-command = "pnpm --prefix ../.. --filter website build"
+# You are already at the root directory, just target the workspace app directly
+command = "pnpm --filter website build"
 
-# Point directly to the build output inside apps/website
-publish = "dist"
+# Point to the exact build folder from the root repository
+publish = "apps/website/dist"
 
 [build.environment]
 PNPM_FLAGS = "--recursive"
