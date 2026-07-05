@@ -1,10 +1,8 @@
 [build]
-# The clean, standard workspace command
-command = "pnpm --filter website build"
+# Bypass run-p by calling the individual package scripts sequentially via pnpm run
+command = "pnpm --filter website run type-check && pnpm --filter website run build-only"
 
-# The correct path to your compiled distribution folder
 publish = "apps/website/dist"
 
 [build.environment]
-# Forces pnpm to install your devDependencies (Vite, vue-tsc, etc.)
 NODE_ENV = "development"
