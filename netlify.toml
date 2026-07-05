@@ -1,8 +1,7 @@
 [build]
-# Bypass run-p by calling the individual package scripts sequentially via pnpm run
-command = "pnpm --filter website run type-check && pnpm --filter website run build-only"
+command = "pnpm build"
 
-publish = "apps/website/dist"
+publish = "dist"
 
 [build.environment]
 NODE_ENV = "development"
