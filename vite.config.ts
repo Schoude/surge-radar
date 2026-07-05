@@ -1,15 +1,18 @@
-import { defineConfig } from 'vite-plus';
+import { fileURLToPath, URL } from 'node:url';
+import tailwindcss from '@tailwindcss/vite';
 
+import { defineConfig } from 'vite-plus';
+import vue from '@vitejs/plugin-vue';
+import vueDevTools from 'vite-plugin-vue-devtools';
+
+// https://vite.dev/config/
 export default defineConfig({
-  staged: {
-    '*': 'vp check --fix',
-  },
   fmt: {
     singleQuote: true,
     semi: true,
     trailingComma: 'all',
     sortTailwindcss: {
-      stylesheet: './apps/website/src/style.css',
+      stylesheet: './src/style.css',
       functions: ['cn', 'clsx', 'cva', 'computed'],
     },
   },
@@ -31,5 +34,11 @@ export default defineConfig({
   },
   run: {
     cache: true,
+  },
+  plugins: [vue(), vueDevTools(), tailwindcss()] as unknown as any,
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
 });

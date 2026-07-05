@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import { fivePillarsQuery } from '@/data/screener.queries';
-import type { ScreenerRow } from '../../../api/main';
+import type { ScreenerRow } from '../../apps/api/main';
 
 let newEntryAudio: HTMLAudioElement | null = null;
 let gainerAudio: HTMLAudioElement | null = null;

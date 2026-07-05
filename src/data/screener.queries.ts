@@ -1,5 +1,5 @@
 import { defineQuery, useQuery } from '@pinia/colada';
-import type { ScreenerRow } from '../../../api/main';
+import type { ScreenerRow } from '../../apps/api/main';
 import { ref } from 'vue';
 
 interface NewsItem {

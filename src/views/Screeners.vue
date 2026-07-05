@@ -7,7 +7,7 @@ import {
 } from '@/data/screener.queries';
 import { computed, ref } from 'vue';
 import TableScreener from '@/components/TableScreener.vue';
-import type { ScreenerRow } from '../../../api/main';
+import type { ScreenerRow } from '../../apps/api/main';
 import TickerNews from '@/components/TickerNews.vue';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';

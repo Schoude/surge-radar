@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import type { ScreenerRow } from '../../../api/main';
+import type { ScreenerRow } from '../../apps/api/main';
 import { useClipboard } from '@vueuse/core';
 import Button from './ui/button/Button.vue';
 
