@@ -1,0 +1,6 @@
+[build]
+command = "pnpm --filter website build"
+publish = "app/website/dist"
+
+[build.environment]
+PNPM_FLAGS = "--recursive"
