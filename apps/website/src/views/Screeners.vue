@@ -14,9 +14,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useIntervalFn } from '@vueuse/core';
 import { useQueryCache } from '@pinia/colada';
 import Button from '@/components/ui/button/Button.vue';
+import { storeToRefs } from 'pinia';
+import { useScreenersStore } from '@/stores/screeners.store';
 
 const { ticker } = newsQuery();
-const { data, isLoading } = fivePillarsQuery();
+const { data, isLoading } = storeToRefs(useScreenersStore());
 const { data: gainersData, isLoading: isGainersLoading } = highestGainersQuery();
 
 const loading = computed(() => isLoading.value || isGainersLoading.value);
