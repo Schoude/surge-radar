@@ -55,10 +55,10 @@ function isSelectedRow(row: ScreenerRow): boolean {
         </TableCell>
         <TableCell>{{ item.name }}</TableCell>
         <TableCell>{{ item.close }}</TableCell>
-        <TableCell>{{ item.premarketChange }}</TableCell>
-        <TableCell>{{ item.premarketVolume }}</TableCell>
-        <TableCell>{{ item.float }}</TableCell>
-        <TableCell>{{ item.relativeVolume10d }}</TableCell>
+        <TableCell>{{ $n(item.premarketChange / 100, 'percentage') }}</TableCell>
+        <TableCell>{{ $n(item.premarketVolume, 'abbreviated') }}</TableCell>
+        <TableCell>{{ $n(item.float, 'abbreviated') }}</TableCell>
+        <TableCell>{{ $n(item.relativeVolume10d, 'decimal') }}</TableCell>
         <TableCell>{{ item.sector }}</TableCell>
         <TableCell>
           <div class="flex h-full items-center gap-2">
