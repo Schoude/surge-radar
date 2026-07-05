@@ -11,13 +11,18 @@ import {
 } from '@/components/ui/table';
 import type { ScreenerRow } from '../../../api/main';
 
-defineProps<{
+const { selectedTicker } = defineProps<{
   data: ScreenerRow[];
+  selectedTicker: string | null;
 }>();
 
 defineEmits<{
   rowClick: [ScreenerRow];
 }>();
+
+function isSelectedRow(row: ScreenerRow): boolean {
+  return selectedTicker?.includes(row.ticker) || false;
+}
 </script>
 
 <template>
@@ -36,7 +41,12 @@ defineEmits<{
       </TableRow>
     </TableHeader>
     <TableBody>
-      <TableRow v-for="item in data" :key="item?.ticker" @click="$emit('rowClick', item)">
+      <TableRow
+        v-for="item in data"
+        :key="item?.ticker"
+        @click="$emit('rowClick', item)"
+        :class="{ 'bg-blue-300/30': isSelectedRow(item) }"
+      >
         <TableCell>
           <div class="flex h-full items-center gap-2">
             <img v-if="item.logoUrl" :src="item.logoUrl" alt="Logo" />

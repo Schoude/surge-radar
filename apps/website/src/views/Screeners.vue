@@ -27,11 +27,16 @@ function handleRowClick(row: ScreenerRow) {
         <TableScreener
           class="mb-4"
           :data="data as unknown as ScreenerRow[]"
+          :selectedTicker="ticker"
           @rowClick="handleRowClick"
         />
 
         <h2 class="mb-2 text-lg">Highest Gainers</h2>
-        <TableScreener :data="gainersData as unknown as ScreenerRow[]" @rowClick="handleRowClick" />
+        <TableScreener
+          :data="gainersData as unknown as ScreenerRow[]"
+          :selectedTicker="ticker"
+          @rowClick="handleRowClick"
+        />
       </div>
 
       <TickerNews />
