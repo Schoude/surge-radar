@@ -2,16 +2,6 @@
 import { fivePillarsQuery, highestGainersQuery } from '@/data/screener.queries';
 import { computed } from 'vue';
 import TableScreener from '@/components/TableScreener.vue';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import type { ScreenerRow } from '../../../api/main';
 
 const { data, isLoading } = fivePillarsQuery();
@@ -25,7 +15,7 @@ function handleRowClick(row: ScreenerRow) {
 </script>
 
 <template>
-  <main class="m-10">
+  <main class="m-7">
     <h1 class="mb-4 text-2xl">Day Trading Screeners</h1>
 
     <div v-if="loading">Loading...</div>
