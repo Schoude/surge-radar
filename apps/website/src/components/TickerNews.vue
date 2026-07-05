@@ -16,6 +16,7 @@ const { data, isLoading, ticker } = newsQuery();
 
 function formatDate(epochSeconds: number): string {
   const epochMilliseconds = epochSeconds * 1000;
+  // @ts-expect-error - not yet in TS
   const instant = Temporal.Instant.fromEpochMilliseconds(epochMilliseconds);
   const zonedDateTime = instant.toZonedDateTimeISO('Europe/Berlin');
   const formattedDate = zonedDateTime.toLocaleString('en-GB', {
@@ -32,7 +33,7 @@ function formatDate(epochSeconds: number): string {
     <div v-if="isLoading">Loading...</div>
 
     <ItemGroup v-else>
-      <Item v-for="item in data.items" :key="item.id" variant="outline">
+      <Item v-for="item in data?.items" :key="item.id" variant="outline">
         <ItemContent>
           <ItemTitle>
             <HugeiconsIcon

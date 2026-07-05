@@ -2,6 +2,17 @@ import { defineQuery, useQuery } from '@pinia/colada';
 import type { ScreenerRow } from '../../../api/main';
 import { ref } from 'vue';
 
+interface NewsItem {
+  id: string;
+  title: string;
+  published: number;
+  provider: {
+    name: string;
+  };
+  link?: string;
+  is_flash?: boolean;
+}
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const QUERY_KEY_SCREENER = {
@@ -39,9 +50,9 @@ export const newsQuery = defineQuery(() => {
     query: async () => {
       const res = await fetch(`${API_URL}/news/${ticker.value}`);
 
-      return res.json() as unknown as ScreenerRow[];
+      return res.json() as unknown as { items: NewsItem[] };
     },
-    placeholderData: [],
+    placeholderData: { items: [] },
     enabled: () => ticker.value !== '',
   });
 
