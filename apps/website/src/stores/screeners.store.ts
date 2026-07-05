@@ -28,10 +28,7 @@ function playAudio(audio: HTMLAudioElement | null, src: string) {
 
 function playNewEntrySound() {
   if (newEntryAudio == null) {
-    newEntryAudio = playAudio(
-      newEntryAudio,
-      '/public/alerts/new-entry.mp3',
-    ) as HTMLAudioElement | null;
+    newEntryAudio = playAudio(newEntryAudio, '/alerts/new-entry.mp3') as HTMLAudioElement | null;
   }
 
   if (newEntryAudio != null) {
@@ -43,7 +40,7 @@ function playNewEntrySound() {
 
 function playGainerSound() {
   if (gainerAudio == null) {
-    gainerAudio = playAudio(gainerAudio, '/public/alerts/gainer.mp3') as HTMLAudioElement | null;
+    gainerAudio = playAudio(gainerAudio, '/alerts/gainer.mp3') as HTMLAudioElement | null;
   }
 
   if (gainerAudio != null) {
