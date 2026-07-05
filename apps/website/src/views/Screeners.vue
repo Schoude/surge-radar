@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { fivePillarsQuery, highestGainersQuery } from '@/data/screener.queries';
+import { fivePillarsQuery, highestGainersQuery, newsQuery } from '@/data/screener.queries';
 import { computed } from 'vue';
 import TableScreener from '@/components/TableScreener.vue';
 import type { ScreenerRow } from '../../../api/main';
+import TickerNews from '@/components/TickerNews.vue';
 
+const { ticker } = newsQuery();
 const { data, isLoading } = fivePillarsQuery();
 const { data: gainersData, isLoading: isGainersLoading } = highestGainersQuery();
 
 const loading = computed(() => isLoading.value || isGainersLoading.value);
 
 function handleRowClick(row: ScreenerRow) {
-  console.log('Row clicked:', row);
+  ticker.value = `${row.exchange}:${row.ticker}`;
 }
 </script>
 
@@ -31,9 +33,8 @@ function handleRowClick(row: ScreenerRow) {
         <h2 class="mb-2 text-lg">Highest Gainers</h2>
         <TableScreener :data="gainersData as unknown as ScreenerRow[]" @rowClick="handleRowClick" />
       </div>
-      <div>
-        <h2 class="mb-2 text-lg">News</h2>
-      </div>
+
+      <TickerNews />
     </div>
   </main>
 </template>

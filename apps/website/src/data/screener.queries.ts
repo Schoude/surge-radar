@@ -1,10 +1,12 @@
-import { defineQuery } from '@pinia/colada';
+import { defineQuery, useQuery } from '@pinia/colada';
 import type { ScreenerRow } from '../../../api/main';
+import { ref } from 'vue';
 
 const QUERY_KEY_SCREENER = {
   root: ['screener'] as const,
   fivePillars: () => [...QUERY_KEY_SCREENER.root, 'five-pillars'] as const,
   highestGainers: () => [...QUERY_KEY_SCREENER.root, 'highest-gainers'] as const,
+  news: (ticker: string) => [...QUERY_KEY_SCREENER.root, 'news', ticker] as const,
 };
 
 export const fivePillarsQuery = defineQuery({
@@ -25,4 +27,25 @@ export const highestGainersQuery = defineQuery({
     return res.json() as unknown as ScreenerRow[];
   },
   placeholderData: [],
+});
+
+export const newsQuery = defineQuery(() => {
+  const ticker = ref('');
+
+  const { data, isLoading } = useQuery({
+    key: () => QUERY_KEY_SCREENER.news(ticker.value),
+    query: async () => {
+      const res = await fetch(`http://localhost:8000/news/${ticker.value}`);
+
+      return res.json() as unknown as ScreenerRow[];
+    },
+    placeholderData: [],
+    enabled: () => ticker.value !== '',
+  });
+
+  return {
+    ticker,
+    data,
+    isLoading,
+  };
 });
