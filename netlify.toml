@@ -1,6 +1,6 @@
 [build]
 # You are already at the root directory, just target the workspace app directly
-command = "pnpm --filter website exec vue-tsc --build && pnpm --filter website exec vite build"
+command = "cd apps/website && ./node_modules/.bin/vue-tsc --build && ../../node_modules/.bin/vite build"
 
 # Point to the exact build folder from the root repository
 publish = "apps/website/dist"
