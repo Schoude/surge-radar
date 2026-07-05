@@ -2,14 +2,16 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
 import type { ScreenerRow } from '../../../api/main';
+import { useClipboard } from '@vueuse/core';
+import Button from './ui/button/Button.vue';
+
+const { copy } = useClipboard();
 
 const { selectedTicker } = defineProps<{
   data: ScreenerRow[];
@@ -50,7 +52,9 @@ function isSelectedRow(row: ScreenerRow): boolean {
         <TableCell>
           <div class="flex h-full items-center gap-2">
             <img v-if="item.logoUrl" :src="item.logoUrl" alt="Logo" />
-            {{ item.ticker }}
+            <Button size="xs" variant="secondary" @click="copy(item.ticker)" class="cursor-pointer">
+              {{ item.ticker }}
+            </Button>
           </div>
         </TableCell>
         <TableCell>{{ item.name }}</TableCell>
